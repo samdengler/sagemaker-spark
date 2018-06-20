@@ -161,10 +161,10 @@ You can start a Spark shell with SageMaker Spark
 spark-shell --packages com.amazonaws:sagemaker-spark_2.11:spark_2.1.1-1.0
 ```
 
-1. Create your Spark Session and load your training and test data into DataFrames:
-```scala
-val spark = SparkSession.builder.getOrCreate
+1. At the scala prompt, enter `:paste`
 
+2. Load your training and test data into DataFrames:
+```scala
 // load mnist data as a dataframe from libsvm. replace this region with your own.
 val region = "us-east-1"
 val trainingData = spark.read.format("libsvm")
@@ -217,7 +217,15 @@ complete list of parameters.
 In this example, we are setting the "k" and "feature_dim" hyperparameters, corresponding to the number
 of clusters we want and to the number of dimensions in our training dataset, respectively.
 
+1. At the scala prompt, enter `:paste`
+
 ```scala
+import org.apache.spark.ml.Pipeline
+import org.apache.spark.ml.feature.PCA
+import org.apache.spark.sql.SparkSession
+import com.amazonaws.services.sagemaker.sparksdk.IAMRole
+import com.amazonaws.services.sagemaker.sparksdk.algorithms
+import com.amazonaws.services.sagemaker.sparksdk.algorithms.KMeansSageMakerEstimator
 
 // Replace this IAM Role ARN with your own.
 val roleArn = "arn:aws:iam::account-id:role/rolename"
@@ -300,7 +308,13 @@ any algorithm that runs on Amazon SageMaker by creating a SageMakerEstimator.
 
 Instead of creating a KMeansSageMakerEstimator, you can create an equivalent SageMakerEstimator:
 
+1. At the scala prompt, enter `:paste`
+
 ```scala
+import com.amazonaws.services.sagemaker.sparksdk.SageMakerEstimator
+import com.amazonaws.services.sagemaker.sparksdk.transformation.deserializers.KMeansProtobufResponseRowDeserializer
+import com.amazonaws.services.sagemaker.sparksdk.transformation.serializers.ProtobufRequestRowSerializer
+
 val estimator = new SageMakerEstimator(
   trainingImage =
     "382416733822.dkr.ecr.us-east-1.amazonaws.com/kmeans:1",
